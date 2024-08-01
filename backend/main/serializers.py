@@ -30,6 +30,18 @@ class UserSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
         return user
+class UserProfileSerializer(serializers.ModelSerializer):
+    profile = ProfileSerializer()
+
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email', 'profile']
+
+    
+    
+
+
+
 
 class UserSerializerWithToken(UserSerializer):
     token = serializers.SerializerMethodField(read_only=True)
@@ -98,3 +110,52 @@ class FileUploadSerializer(serializers.ModelSerializer):
     class Meta:
         model = File
         fields = ['file', 'comment', 'who_can_see']
+        
+        
+class PasswordChangeSerializer(serializers.Serializer):
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+
+    def validate_old_password(self, value):
+        user = self.context['request'].user
+        if not user.check_password(value):
+            raise serializers.ValidationError("Old password is incorrect")
+        return value
+
+    def validate(self, attrs):
+        if attrs['old_password'] == attrs['new_password']:
+            raise serializers.ValidationError("New password cannot be the same as the old password")
+        return attrs
+
+    def save(self, **kwargs):
+        user = self.context['request'].user
+        user.set_password(self.validated_data['new_password'])
+        user.save()
+        return user
+    
+    
+    
+
+
+class UserProfileUpdateSerializer(serializers.ModelSerializer):
+    profile_pic = serializers.ImageField(required=False)
+
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email', 'profile_pic']
+
+    def update(self, instance, validated_data):
+        # Update user fields
+        instance.first_name = validated_data.get('first_name', instance.first_name)
+        instance.last_name = validated_data.get('last_name', instance.last_name)
+        instance.email = validated_data.get('email', instance.email)
+        instance.save()
+
+        # Update profile picture if provided
+        profile_pic = validated_data.get('profile_pic')
+        if profile_pic:
+            profile, created = Profile.objects.get_or_create(user=instance)
+            profile.profile_pic = profile_pic
+            profile.save()
+
+        return instance

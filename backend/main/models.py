@@ -65,6 +65,8 @@ class File(models.Model):
         # Ensure sender is in who_can_see if it's not already there
         if self.sender and not self.who_can_see.filter(id=self.sender.id).exists():
             self.who_can_see.add(self.sender)
+            # Save the instance again to apply the changes to the ManyToManyField
+            super().save(*args, **kwargs)
 
     def __str__(self):
         return self.file_name

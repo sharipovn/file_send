@@ -4,16 +4,18 @@ from rest_framework.permissions import IsAuthenticated,IsAdminUser
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.response import Response
+from rest_framework.parsers import JSONParser, MultiPartParser,FormParser
+
 from django.db.models import Q
 from rest_framework import status
 from rest_framework.parsers import MultiPartParser
+from rest_framework.pagination import PageNumberPagination
+
+
 
 import json
 from .models import User, Group, File
-from .serializers import UserSerializer,UserSerializerWithToken, GroupSerializer, FileSerializer,CreateGroupSerializer,FileUploadSerializer
-
-
-
+from .serializers import UserSerializer,UserSerializerWithToken, GroupSerializer, FileSerializer,CreateGroupSerializer,FileUploadSerializer,PasswordChangeSerializer,UserProfileSerializer,UserProfileUpdateSerializer
 
 
 
@@ -33,6 +35,36 @@ class MyTokenObtainPairView(TokenObtainPairView):
 
 
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def password_change(request):
+    serializer = PasswordChangeSerializer(data=request.data, context={'request': request})
+    if serializer.is_valid():
+        serializer.save()
+        return Response({'status': "Parolingiz muvofaqyatli o'rnatildi"}, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def user_profile(request):
+    user = request.user
+    serializer = UserProfileSerializer(user, context={'request': request})
+    return Response(serializer.data)
+
+
+
+
+
+
+@api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
+@parser_classes([MultiPartParser, FormParser])
+def update_user_profile(request):
+    serializer = UserProfileUpdateSerializer(request.user, data=request.data, partial=True, context={'request': request})
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -40,7 +72,9 @@ class MyTokenObtainPairView(TokenObtainPairView):
 def all_files(request):
     if request.method == 'GET':
         current_user=request.user
-        files = File.objects.filter(who_can_see=current_user)
+        files = File.objects.filter(
+            Q(who_can_see=current_user) | Q(sender=current_user)
+        ).distinct()
         serializer = FileSerializer(files, many=True,context={'request': request})
         return Response(serializer.data)
     
@@ -116,3 +150,16 @@ def file_upload(request):
 
     serializer = FileUploadSerializer(file_objects, many=True, context={'request': request})
     return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def delete_file(request, file_id):
+    try:
+        file_instance = File.objects.get(file_id=file_id, sender=request.user)
+        file_instance.delete()
+        return Response({'message': 'File deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+    except File.DoesNotExist:
+        return Response({'error': 'File not found or not authorized to delete'}, status=status.HTTP_404_NOT_FOUND)
