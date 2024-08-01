@@ -1,6 +1,7 @@
 import uuid
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+import os
 
 class User(AbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -48,6 +49,8 @@ class Group(models.Model):
         managed = True
         
         
+
+
 class File(models.Model):
     file_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     file_name = models.CharField(max_length=255)
@@ -81,7 +84,17 @@ class File(models.Model):
             return f"{size / (1024 ** 2):.2f} MB"
         else:
             return f"{size / (1024 ** 3):.2f} GB"
-    
+
+    def delete(self, *args, **kwargs):
+        # Delete the file from the filesystem
+        if self.file:
+            # If using default storage backend
+            if hasattr(self.file, 'delete'):
+                self.file.delete(save=False)
+
+        # Delete the instance from the database
+        super().delete(*args, **kwargs)
+
     class Meta:
         db_table = 'File'
         managed = True

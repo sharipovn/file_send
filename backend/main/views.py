@@ -158,8 +158,11 @@ def file_upload(request):
 @permission_classes([IsAuthenticated])
 def delete_file(request, file_id):
     try:
-        file_instance = File.objects.get(file_id=file_id, sender=request.user)
-        file_instance.delete()
-        return Response({'message': 'File deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+        # Retrieve the file object
+        file = File.objects.get(file_id=file_id, sender=request.user)
+        file.delete()  # Delete the file
+        return Response({'message': 'File deleted successfully'}, status=status.HTTP_200_OK)  # Return 200 OK with a message
     except File.DoesNotExist:
-        return Response({'error': 'File not found or not authorized to delete'}, status=status.HTTP_404_NOT_FOUND)
+        return Response({'error': 'File not found'}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response({'error': f'Internal server error: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
