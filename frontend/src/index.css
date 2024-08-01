@@ -218,3 +218,50 @@ font-size: 18px;
   min-height: 7vh;
 }
 /* ================================end item group=================================*/
+
+/* ================================scrollbar table=================================*/
+.table-scrollbar {
+  height:70vh; /* Set desired height */
+  overflow-y: auto;
+  scrollbar-width: thin; /* For Firefox */
+  scrollbar-color: #004052 transparent; /* For Firefox */
+
+  }
+  
+  .table-scrollbar::-webkit-scrollbar {
+  width: 5px; /* Width of vertical scrollbar */
+  }
+  
+  .table-scrollbar::-webkit-scrollbar-track {
+  background: transparent; /* Track color */
+  }
+  
+  .table-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #202b36; /* Thumb color */
+  border-radius: 5px; /* Roundness of thumb */
+  }
+  .table-scrollbar thead th {
+    position: sticky;
+    z-index: 1;
+    top: 0;
+  }
+  .table-scrollbar tr td {
+      background-color: #093843;
+  }
+
+/* ================================end scrollbar table=================================*/
+.profile-pic-container {
+  border: 2px solid #ddd; /* Outer border */
+  border-radius: 50%; /* Rounded border */
+  padding: 5px; /* Padding for inner border effect */
+  display: inline-block;
+  width: 30vh; /* Adjust as needed */
+  height:30vh; /* Adjust as needed */
+}
+
+.profile-pic {
+  width: 100%; /* Full width to fit the container */
+  height: 100%; /* Full height to fit the container */
+  object-fit: cover; /* Ensure image covers the container */
+  border-radius: 50%; /* Ensure the image is rounded */
+}

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Navigate } from 'react-router-dom';
 import Select from 'react-select';
-import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
+import {  Row, Col, Form, Button, Alert } from 'react-bootstrap';
 
 function FileUploadScreen() {
     const [files, setFiles] = useState([]);
@@ -92,17 +92,18 @@ function FileUploadScreen() {
     }
 
     return (
-        <Container>
-            <h2 className="mt-4 mb-4">Upload Files</h2>
+        <div style={{height:'40vh'}} className='container  d-flex flex-column'>
+            <h2 className="mt-2 mb-2">Fayllar jo'natish</h2>
             <Form onSubmit={handleSubmit}>
                 <Form.Group as={Row} controlId="formFile">
-                    <Form.Label column sm={2}>Files</Form.Label>
+                    <Form.Label column sm={2}>Fayl(lar) tanlang</Form.Label>
                     <Col sm={10}>
                         <Form.Control
                             type="file"
                             multiple
                             onChange={handleFileChange}
                             required
+                            style={{ backgroundColor: '#173036', color: 'white' }}
                         />
                         {fileNames.length > 0 && (
                             <ul className="mt-2">
@@ -114,10 +115,11 @@ function FileUploadScreen() {
                     </Col>
                 </Form.Group>
 
-                <Form.Group as={Row} controlId="formComment">
-                    <Form.Label column sm={2}>Comment</Form.Label>
+                <Form.Group as={Row} controlId="formComment" className='mt-2'>
+                    <Form.Label column sm={2}>Komment</Form.Label>
                     <Col sm={10}>
                         <Form.Control
+                            style={{ backgroundColor: '#173036', color: 'white' }}
                             type="text"
                             value={comment}
                             onChange={handleCommentChange}
@@ -125,8 +127,8 @@ function FileUploadScreen() {
                     </Col>
                 </Form.Group>
 
-                <Form.Group as={Row} controlId="formUsers">
-                    <Form.Label column sm={2}>Who can see (Users)</Form.Label>
+                <Form.Group as={Row} controlId="formUsers" className='mt-2'>
+                    <Form.Label column sm={2}>Kimlarga (Foydalanuvchilar)</Form.Label>
                     <Col sm={10}>
                         <Select
                             isMulti
@@ -136,8 +138,8 @@ function FileUploadScreen() {
                     </Col>
                 </Form.Group>
 
-                <Form.Group as={Row} controlId="formGroups">
-                    <Form.Label column sm={2}>Who can see (Groups)</Form.Label>
+                <Form.Group as={Row} controlId="formGroups" className='mt-2'>
+                    <Form.Label column sm={2}>Kimlarga (Guruhlar)</Form.Label>
                     <Col sm={10}>
                         <Select
                             isMulti
@@ -147,10 +149,10 @@ function FileUploadScreen() {
                     </Col>
                 </Form.Group>
 
-                <Form.Group as={Row}>
+                <Form.Group as={Row} className='mt-4'>
                     <Col sm={{ span: 10, offset: 2 }}>
                         <Button variant="primary" type="submit">
-                            Upload
+                            Yuklash
                         </Button>
                     </Col>
                 </Form.Group>
@@ -161,7 +163,7 @@ function FileUploadScreen() {
                     {message}
                 </Alert>
             )}
-        </Container>
+        </div>
     );
 }
 

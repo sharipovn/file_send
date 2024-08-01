@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {Navbar,Nav,NavDropdown} from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
-import { useNavigate,Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function Header() {
     const navigate = useNavigate();

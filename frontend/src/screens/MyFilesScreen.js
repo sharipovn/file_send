@@ -1,10 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import {Form,Button,InputGroup,Row,Table} from 'react-bootstrap';
+import {Form,Button,InputGroup,Row} from 'react-bootstrap';
 import { Navigate } from 'react-router-dom';
 import axios from 'axios';
 import TableRow from '../components/TableRow'
 
-
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  return date.toLocaleString('uz-UZ', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+};
 
 
 function MyFilesScreen() {
@@ -62,7 +71,8 @@ function MyFilesScreen() {
 
   const filteredFiles = files.filter(file =>
     file.sender.username.toLowerCase().includes(searchTerm) ||
-    file.file_name.toLowerCase().includes(searchTerm)
+    file.file_name.toLowerCase().includes(searchTerm)||
+    formatDate(file.created).includes(searchTerm)
   );
 
 
@@ -73,7 +83,7 @@ function MyFilesScreen() {
               <div className='col-4'>
                 <InputGroup>
                   <Form.Control
-                    placeholder="Fayl nomi yoki yuborgan ismi . . ."
+                    placeholder="Fayl nomi, yuborgan ismi yoki yuborilgan vaqti . . ."
                     aria-label="Recipient's username with two button addons"
                     style={{ backgroundColor: '#173036',color: 'white'  }}
                     onChange={handleSearchChange}
@@ -85,7 +95,8 @@ function MyFilesScreen() {
           </div>
         </Row>
         <Row className='mt-5'>
-        <Table striped bordered hover responsive variant="dark" >
+        <div className="table-scrollbar">
+          <table class="table table-sm table-striped table-hover table-bordered border-secondary-emhasis">
           <thead>
             <tr>
               <th  className="custom-cell bg-info">#</th>
@@ -104,10 +115,12 @@ function MyFilesScreen() {
           </thead>
           <tbody>
             {filteredFiles.map((file, index) => (
-             <TableRow  page_type={'me'} file={file} index={index} />
+             <TableRow  key={file.id} page_type={'me'} file={file} index={index} />
             ))}
           </tbody>
-        </Table>
+        </table>
+
+        </div>
         </Row>
       </div>
   )

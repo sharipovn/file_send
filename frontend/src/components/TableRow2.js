@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import HoverCard from '../components/HoverCard';
+import HoverCard from './HoverCard';
 
 const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -47,7 +47,6 @@ function TableRow({ page_type, file, index, onFileDeleted }) {
             if (onFileDeleted) {
                 onFileDeleted(file.file_id); // Notify parent component
             }
-           
         } catch (error) {
             console.error('Failed to delete file:', error);
         }

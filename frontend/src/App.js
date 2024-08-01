@@ -7,6 +7,8 @@ import LoginScreen from './screens/LoginScreen';
 import MyFilesScreen from './screens/MyFilesScreen';
 import CreateGroupScreen from './screens/CreateGroupScreen';
 import FileUploadScreen from './screens/FileUploadScreen';
+import PasswordChangeScreen from './screens/PasswordChangeScreen';
+import ProfileUpdateScreen from './screens/ProfileUpdateScreen';
 
 
 
@@ -17,6 +19,8 @@ function App() {
       <Header/>
       <main className='container-fluid'>
       <Routes>
+          <Route path='/my-profile'  Component={ProfileUpdateScreen} />
+          <Route path='/change-my-password'  Component={PasswordChangeScreen} />
           <Route path='/upload-new-file'  Component={FileUploadScreen} />
           <Route path='/create-new-group'  Component={CreateGroupScreen} />
           <Route path='/all_files'  Component={HomeScreen} />
