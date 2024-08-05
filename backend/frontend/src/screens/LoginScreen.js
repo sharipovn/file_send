@@ -25,12 +25,13 @@ function LoginScreen() {
   return (
     <FormContainer>
       <div className='text-center'>
-        <img
+        {/* <img
           alt="File Send title"
-          src="./icons/login_title.png"
+          src="/icons/login_title.png"
           className="d-inline-block align-top me-2"
           style={{height: '300px', width: '300px'}}
-        />
+        /> */}
+        <i class="fa-solid fa-lemon fa-10x d-inline-block align-top me-2 mt-5" style={{color:"yellow",height: '250px', width: '300px'}}></i>
       </div>
       {/* <h1 className='text-center'>Xush Kelibsiz</h1> */}
       {error && <p style={{ color: 'red' }}>{error}</p>}

@@ -21,12 +21,14 @@ function Header() {
 
             
                 <Navbar.Brand className="d-flex align-items-center">
-                    <img
+                    {/* <img
                         alt="Het Nav title"
                         src="/icons/title_icon.png"
                         className="d-inline-block align-top me-2 brand-image"
-                    />{' '}
-                    <span className='brand-text'>Bananza</span>
+                    /> */}
+                    <i class="fa-solid fa-lemon fa-2x d-inline-block align-top me-2 brand-image" style={{color:"yellow"}}></i>
+                    {' '}
+                    <span className='brand-text'>lemon</span>
                 </Navbar.Brand>
                         
 

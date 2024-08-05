@@ -50,10 +50,9 @@ function HomeScreen() {
     setSearchTerm(event.target.value.toLowerCase());
   };
 
-  const handleFileDeleted = (fileId) => {
-    console.log('File deleted:', fileId);
-    setFiles((prevFiles) => prevFiles.filter(file => file.file_id !== fileId));
-    window.location.reload()
+  const handleFileDeleted = () => {
+    console.log('File deleted, refetching files...');
+    fetchFiles();
   };
 
   const filteredFiles = files.filter(file =>
@@ -90,19 +89,27 @@ function HomeScreen() {
               <tr>
                 <th className="custom-cell bg-info">#</th>
                 <th className="custom-cell bg-info">
-                  <img src="/icons/person.png" alt="icon" style={{ width: '25px', height: '25px' }} />{' '}
+                <i className="fa-solid fa-circle-user"></i>
+                  {/* <img src="/icons/person.png" alt="icon" style={{ width: '25px', height: '25px' }} /> */}
+                  {' '}
                   Yuboruvchi
                 </th>
                 <th className="custom-cell bg-info">
-                  <img src="/icons/files.png" alt="icon" style={{ width: '20px', height: '20px' }} />{' '}
+                <i className="fa-solid fa-file-zipper text-primary"></i>
+                  {/* <img src="/icons/files.png" alt="icon" style={{ width: '20px', height: '20px' }} /> */}
+                  {' '}
                   Fayl nomi
                 </th>
                 <th className="custom-cell bg-info">
-                  <img src="/icons/comment.png" alt="icon" style={{ width: '20px', height: '20px' }} />{' '}
+                  {/* <img src="/icons/comment.png" alt="icon" style={{ width: '20px', height: '20px' }} /> */}
+                  <i className="fa-solid fa-comment-dots"></i>
+                  {' '}
                   Komment
                 </th>
                 <th className="custom-cell bg-info">
-                  <img src="/icons/clock.png" alt="icon" style={{ width: '20px', height: '20px' }} />{' '}
+                <i className="fa-regular fa-clock text-info"></i>
+                  {/* <img src="/icons/clock.png" alt="icon" style={{ width: '20px', height: '20px' }} /> */}
+                  {' '}
                   Yuborilgan
                 </th>
                 <th className='custom-cell bg-info'>Fayl o'lchami</th>

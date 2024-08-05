@@ -10,6 +10,7 @@ from django.db.models import Q
 from rest_framework import status
 from rest_framework.parsers import MultiPartParser
 from rest_framework.pagination import PageNumberPagination
+import uuid
 
 
 
@@ -125,6 +126,7 @@ def file_upload(request):
     files = request.FILES.getlist('file')
     comment = request.data.get('comment', '')
     who_can_see = request.data.get('who_can_see', '')
+    print('who_can_see: %s' % who_can_see)
 
     user = request.user
     file_objects = []
@@ -141,10 +143,14 @@ def file_upload(request):
         # Handle many-to-many relationships
         if who_can_see:
             who_can_see_data = json.loads(who_can_see)
-            users = who_can_see_data.get('users', [])
+            user_ids = who_can_see_data.get('users', [])
+            group_ids = who_can_see_data.get('groups', [])
+            group_memeber_ids=Group.objects.filter(group_id__in=group_ids).values_list('members', flat=True)
+            # Collect members from groups
+
+            all_user_ids = set(user_ids).union(group_memeber_ids)
             
-            # Add users
-            file_instance.who_can_see.set(users)
+            file_instance.who_can_see.set(all_user_ids)
 
         file_objects.append(file_instance)
 

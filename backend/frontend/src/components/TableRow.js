@@ -45,9 +45,8 @@ function TableRow({ page_type, file, index, onFileDeleted }) {
                 },
             });
             if (onFileDeleted) {
-                onFileDeleted(file.file_id); // Notify parent component
+                onFileDeleted(); // Notify parent component
             }
-           
         } catch (error) {
             console.error('Failed to delete file:', error);
         }
@@ -73,13 +72,16 @@ function TableRow({ page_type, file, index, onFileDeleted }) {
             </td>
             <td className="custom-cell">
                 {userInfo.id === file.sender.id && (
-                    <img
-                        src="/icons/delete-file.png"
-                        alt="Delete icon"
-                        style={{ width: '40px', height: '40px', cursor: 'pointer' }}
-                        onClick={handleDelete}
-                    />
+                    // <img
+                    //     src="/icons/delete-file.png"
+                    //     alt="Delete icon"
+                    //     style={{ width: '40px', height: '40px', cursor: 'pointer' }}
+                    //     onClick={handleDelete}
+                        
+                    // />
+                    <i className="fa-regular fa-trash-can  fa-2x" onClick={handleDelete} style={{color:'red',cursor:'pointer'}}></i>
                 )}
+                
             </td>
         </tr>
     );
