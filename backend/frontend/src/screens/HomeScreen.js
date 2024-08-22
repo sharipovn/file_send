@@ -100,7 +100,7 @@ function HomeScreen() {
                   {' '}
                   Fayl nomi
                 </th>
-                <th className="custom-cell bg-info">
+                <th className="custom-cell bg-info" style={{color:'white'}}>
                   {/* <img src="/icons/comment.png" alt="icon" style={{ width: '20px', height: '20px' }} /> */}
                   <i className="fa-solid fa-comment-dots"></i>
                   {' '}

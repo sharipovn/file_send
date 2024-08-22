@@ -62,9 +62,9 @@ function LoginScreen() {
         <Button type='submit' variant='info' className='mt-3 col-12'>Kirish</Button>
       </Form>
       <Row className='py-3'>
-        <Col>
+        {/* <Col>
           Yangi Foydalanuvchimisiz ? <Link to='/register'>Ro'yhatdan o'tish</Link>
-        </Col>
+        </Col> */}
       </Row>
     </FormContainer>
   );
